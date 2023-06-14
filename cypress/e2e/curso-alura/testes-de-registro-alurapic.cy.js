@@ -35,13 +35,16 @@ describe('Teste de registro válido', () => {
         cy.paginaDeRegistro()
     })
 
-    it.only('Registro com sucesso', () => {
-        cy.get('input[formcontrolname="email"]').type('teste01@email.com')
-        cy.get('input[formcontrolname="fullName"]').type('Teste01')
-        cy.get('input[formcontrolname="userName"]').type('teste01')
-        cy.contains('small[class="text-success"]', 'User available').should('be.visible')
-        cy.get('input[formcontrolname="password"]').type('12345678')
-        cy.contains('button.btn', 'Register').click()
-        cy.get('h4.text-center').should('contain', 'Login')
+    const users = require('../../fixtures/users.json')
+    users.forEach(user => {
+        it.only(`Registrar usuário ${user.userName} com sucesso`, () => {
+            cy.get('input[formcontrolname="email"]').type(user.email)
+            cy.get('input[formcontrolname="fullName"]').type(user.fullName)
+            cy.get('input[formcontrolname="userName"]').type(user.userName)
+            cy.contains('small[class="text-success"]', 'User available').should('be.visible')
+            cy.get('input[formcontrolname="password"]').type(user.password)
+            cy.contains('button.btn', 'Register').click()
+            cy.get('h4.text-center').should('contain', 'Login')
+        })
     })
 })
